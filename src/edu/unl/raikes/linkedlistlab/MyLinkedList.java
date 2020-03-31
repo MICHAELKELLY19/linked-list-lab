@@ -85,7 +85,24 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		// TODO: fill this in
+		Node ourNode = new Node(element);
+
+		if (index == 0) {
+		ourNode.next = head;
+		head = ourNode;
+		} else {
+
+		// find the node before the index
+		Node beforeNode = head;
+		for (int i = 0; i < index - 1; i++) {
+		beforeNode = beforeNode.next;
+		}
+
+		// link the node to the one after it
+		ourNode.next = beforeNode.next;
+		beforeNode.next = ourNode;
+		}
+		size++;
 	}
 
 	@Override
@@ -146,7 +163,14 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill this in
+		Node compare = head;
+
+		for (int i = 0; i < size; i++) {
+		if (equals(target, compare.cargo)) {
+		return i;
+		}
+		compare = compare.next;
+		}
 		return -1;
 	}
 
@@ -201,14 +225,36 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean remove(Object obj) {
-		// TODO: fill this in
-		return false;
+		boolean b = false;
+		if(indexOf(obj) != -1) {
+		b = true;
+		}
+		remove(indexOf(obj));
+		return b;
 	}
 
 	@Override
 	public E remove(int index) {
-		// TODO: fill this in
-		return null;
+		
+		if (index < 0) {
+			return null;
+			} else if (index == 0) {
+			E cargo = head.cargo;
+			head = head.next;
+			size--;
+			return cargo;
+			} else {
+			Node beforeNode = head;
+			for (int i = 0; i < index - 1; i++) {
+			beforeNode = beforeNode.next;
+			}
+
+			E cargo = beforeNode.next.cargo;
+			beforeNode.next = beforeNode.next.next;
+			size--;
+			return cargo;
+			}
+
 	}
 
 	@Override
